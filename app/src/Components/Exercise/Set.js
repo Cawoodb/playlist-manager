@@ -16,8 +16,8 @@ class Set extends Component {
   constructor(props) {
       super(props);
 
-      this.updateSet = this.props.updateSet.bind(this);
-      this.deleteSet = this.props.deleteSet.bind(this);
+      this.updateSet = this.updateSet.bind(this);
+      this.deleteSet = this.deleteSet.bind(this);
   }
 
   updateSet(newValue, attributeToChange){
@@ -37,7 +37,7 @@ class Set extends Component {
     const NAME = "name";
     const MIN_REPS = "minReps";
     const MAX_REPS = "maxReps";
-    
+
     return (
         <div className="row">
             <input className="col s5" type="text" value={set.name} onChange={ (e) => this.updateSet(e.target.value, NAME) } placeholder="Name"></input>

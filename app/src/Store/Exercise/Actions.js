@@ -30,7 +30,7 @@ export const updateExercise = (exerciseId, attributeToChange, newValue) => ({
 });
 
 export const updateSet = (exerciseId, setId, attributeToChange, newValue) => ({
-   type: ActionTypes.UPDATE_EXERCISE,
+   type: ActionTypes.UPDATE_SET,
    exerciseId,
    setId,
    attributeToChange,
