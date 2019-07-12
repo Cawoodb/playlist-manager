@@ -1,0 +1,6 @@
+export const REQUEST_EXERCISE = 'REQUEST_EXERCISE';
+export const RECEIVE_EXERCISE = 'RECEIVE_EXERCISE';
+export const ADD_SET = 'ADD_SET';
+export const UPDATE_EXERCISE = 'UPDATE_EXERCISE';
+export const UPDATE_SET = 'UPDATE_SET';
+export const DELETE_SET = 'DELETE_SET';
