@@ -18,7 +18,7 @@ const indexToAlphanum = (index, exerciseTier) => {
 };
 
 //change to accept function and array of possible parameters
-const findExerciseAndExecuteFunctionOnIt = (topLevelExercise, exercises, targetExerciseId, functionToCall, functionParameters, exerciseTier) => {
+const findExerciseAndExecuteFunctionOnIt = (topLevelExercise, targetExerciseId, functionToCall, functionParameters, exerciseTier) => {
     let tierOneExerciseIdPart =  targetExerciseId.substring(0,3);
     let tierOneExerciseId = tierOneExerciseIdPart + "00000";
     let tierTwoExerciseIdPart = targetExerciseId.substring(3, 5);
@@ -31,6 +31,7 @@ const findExerciseAndExecuteFunctionOnIt = (topLevelExercise, exercises, targetE
     let tierFiveExerciseId = tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + tierFourExerciseIdPart + tierFiveExerciseIdPart;
 
     let newTopLevelExercise = topLevelExercise;
+    let exercises = newTopLevelExercise.exercises;
 
     if(topLevelExercise.exerciseId === targetExerciseId){
         newTopLevelExercise = functionToCall(topLevelExercise, functionParameters);
@@ -59,7 +60,7 @@ const findExerciseAndExecuteFunctionOnIt = (topLevelExercise, exercises, targetE
 
         exercises = exercises.map(exercise => {
             if(exercise.exerciseId === currentTierParentExerciseId){
-                return findExerciseAndExecuteFunctionOnIt(exercise);
+                return findExerciseAndExecuteFunctionOnIt(exercise, targetExerciseId, functionToCall, functionParameters, exerciseTier);
             }
             else{
                 return exercise;
