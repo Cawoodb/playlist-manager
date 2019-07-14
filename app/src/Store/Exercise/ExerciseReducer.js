@@ -17,26 +17,59 @@ const indexToAlphanum = (index, exerciseTier) => {
     return index;
 };
 
-const addExerciseOrCallForNextTier = (exercises, parentExerciseId, exerciseTier) => {
-    let userId = parentExerciseId.substring(0,7);
-    let tierOneExerciseIdPart =  parentExerciseId.substring(7,10);
-    let tierOneExerciseId = userId + tierOneExerciseIdPart + "00000";
-    let tierTwoExerciseIdPart = parentExerciseId.substring(10, 12);
-    let tierTwoExerciseId = userId + tierOneExerciseIdPart + tierTwoExerciseIdPart + "000";
-    let tierThreeExerciseIdPart = parentExerciseId.substring(12);
-    let tierThreeExerciseId = userId + tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + "00";
-    let tierFourExerciseIdPart = parentExerciseId.charAt(13);
-    let tierFourExerciseId = userId + tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + parentExerciseId.substring(13) + "0";
-    let tierFiveExerciseIdPart = parentExerciseId.substring(14);
-    let tierFiveExerciseId = userId + tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + tierFourExerciseIdPart + tierFiveExerciseIdPart;
+//change to accept function and array of possible parameters
+const findExerciseAndExecuteFunctionOnIt = (topLevelExercise, exercises, targetExerciseId, functionToCall, functionParameters, exerciseTier) => {
+    let tierOneExerciseIdPart =  targetExerciseId.substring(0,3);
+    let tierOneExerciseId = tierOneExerciseIdPart + "00000";
+    let tierTwoExerciseIdPart = targetExerciseId.substring(3, 5);
+    let tierTwoExerciseId = tierOneExerciseIdPart + tierTwoExerciseIdPart + "000";
+    let tierThreeExerciseIdPart = targetExerciseId.substring(5);
+    let tierThreeExerciseId = tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + "00";
+    let tierFourExerciseIdPart = targetExerciseId.charAt(6);
+    let tierFourExerciseId = tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + tierFourExerciseIdPart + "0";
+    let tierFiveExerciseIdPart = targetExerciseId.substring(7);
+    let tierFiveExerciseId = tierOneExerciseIdPart + tierTwoExerciseIdPart + tierThreeExerciseIdPart + tierFourExerciseIdPart + tierFiveExerciseIdPart;
 
-    exerciseTier = exerciseTier || 3;
+    let newTopLevelExercise = topLevelExercise;
 
-    exercises = exercises.map( exercise => {
+    if(topLevelExercise.exerciseId === targetExerciseId){
+        newTopLevelExercise = functionToCall(topLevelExercise, functionParameters);
+    }
+    else{
+        exerciseTier = exerciseTier ? 2 : exerciseTier + 1;
+        let currentTierParentExerciseId = "";
 
-    });
+        switch(exerciseTier){
+            case 2:
+                currentTierParentExerciseId = tierTwoExerciseId;
+                break;
+            case 3:
+                currentTierParentExerciseId = tierThreeExerciseId;
+                break;
+            case 4:
+                currentTierParentExerciseId = tierFourExerciseId;
+                break;
+            case 5:
+                currentTierParentExerciseId = tierFiveExerciseId;
+                break;
+            default:
+                //display too deeply nested error to user
+                return newTopLevelExercise;
+        }
 
-    return exercises;
+        exercises = exercises.map(exercise => {
+            if(exercise.exerciseId === currentTierParentExerciseId){
+                return findExerciseAndExecuteFunctionOnIt(exercise);
+            }
+            else{
+                return exercise;
+            }
+        });
+
+        newTopLevelExercise.exercises = exercises;
+    }
+
+    return newTopLevelExercise;
 };
 
 const exerciseReducer = (state = initialState, action) => {
