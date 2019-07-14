@@ -1,4 +1,5 @@
 import React, { Component }  from 'react';
+import firebase from './../../services/firebase';
 
 class CreateAccount extends Component {
   state = {
@@ -15,7 +16,20 @@ class CreateAccount extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(this.state);
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then((response) => {
+      firebase.firestore().collection('users').doc(response.user.uid).set({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        uid: response.user.uid
+      })
+    })
+    .catch(() => {
+      // Handle Errors here.
+      console.log('You done messed up');
+    });
+    
   }
   render() {
     return (
