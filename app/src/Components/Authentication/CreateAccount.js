@@ -1,12 +1,15 @@
 import React, { Component }  from 'react';
 import firebase from './../../services/firebase';
+import { Redirect } from 'react-router-dom';
 
 class CreateAccount extends Component {
   state = {
     firstName: '',
     lastName: '',
     email: '',
-    password: ''
+    password: '',
+    errorMessage: '',
+    redirect: false
   }
   handleChange = (e) => {
     this.setState({
@@ -17,23 +20,29 @@ class CreateAccount extends Component {
     e.preventDefault();
 
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .then((response) => {
-      firebase.firestore().collection('users').doc(response.user.uid).set({
+    .then((res) => {
+      firebase.firestore().collection('users').doc(res.user.uid).set({
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,
-        uid: response.user.uid
+        uid: res.user.uid
       })
     })
-    .catch(() => {
+    .then (() => {
+      this.setState({redirect: true})
+    })
+    .catch((error) => {
       // Handle Errors here.
-      console.log('You done messed up');
+      console.log(error);
+      this.setState({errorMessage: error.message})
     });
     
   }
   render() {
     return (
       <div className="container">
+        {this.state.redirect 
+        && <Redirect to='' push={true} />}
         <form onSubmit={this.handleSubmit} className="white">
           <h5 className="grey-text text-darken-3">Create Account</h5>
           <div className="input-field">
@@ -55,6 +64,8 @@ class CreateAccount extends Component {
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Create Account</button>
           </div>
+          {this.state.errorMessage &&
+            <p>{this.state.errorMessage}</p>}
         </form>
       </div>
     );
