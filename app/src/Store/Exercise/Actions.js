@@ -1,13 +1,9 @@
 import * as ActionTypes from "./ActionTypes";
 import * as Service from "./Service";
 
-const requestExercise = () => ({
-   type: ActionTypes.REQUEST_EXERCISE
-});
-
-const receiveExercise = (exercise) => ({
-   type: ActionTypes.RECEIVE_EXERCISE,
-   exercise
+export const addExercise = (parentExerciseId) => ({
+   type: ActionTypes.ADD_EXERCISE,
+   parentExerciseId
 });
 
 export const fetchExercise = (exerciseName)  => (dispatch) => {
@@ -17,9 +13,13 @@ export const fetchExercise = (exerciseName)  => (dispatch) => {
    });
 };
 
-export const addSet = (exerciseId) => ({
-   type: ActionTypes.ADD_SET,
-   exerciseId
+const requestExercise = () => ({
+   type: ActionTypes.REQUEST_EXERCISE
+});
+
+const receiveExercise = (exercise) => ({
+   type: ActionTypes.RECEIVE_EXERCISE,
+   exercise
 });
 
 export const updateExercise = (exerciseId, attributeToChange, newValue) => ({
@@ -27,6 +27,11 @@ export const updateExercise = (exerciseId, attributeToChange, newValue) => ({
    exerciseId,
    attributeToChange,
    newValue
+});
+
+export const addSet = (exerciseId) => ({
+   type: ActionTypes.ADD_SET,
+   exerciseId
 });
 
 export const updateSet = (exerciseId, setId, attributeToChange, newValue) => ({
