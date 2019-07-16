@@ -5,11 +5,11 @@ import { fetchExercise } from '../../Store/Exercise/Actions';
 import PropTypes from 'prop-types';
 import Exercise from './Exercise';
 
-export default class Exercises extends Component {
+class Creation extends Component {
 
   static get propTypes() {
     return {
-        exercises: PropTypes.array
+        topLevelExercise: PropTypes.object
     };
 }
 
@@ -18,11 +18,19 @@ constructor(props) {
 }
 
   render() {
-    let exercises = this.props.exercises;
     return(
       <div className = "row">
-        {exercises ? exercises.map( exercise => <Exercise exercise={exercise} key={exercise.exerciseId}/>) : ""}
+        <Exercise exercise={this.props.topLevelExercise}/>
       </div>
     );
   }
+}
+
+const mapStateToProps = state => {
+  return{
+    topLevelExercise : state.exercise.topLevelExercise
+  };
 };
+
+
+export default connect(mapStateToProps)(Creation);

@@ -16,14 +16,18 @@ class Set extends Component {
   constructor(props) {
       super(props);
 
+      this.state = {
+        set: props.set
+      }
+
+
       this.updateSet = this.updateSet.bind(this);
       this.deleteSet = this.deleteSet.bind(this);
   }
 
   updateSet(newValue, attributeToChange){
-    let exerciseId = this.props.set.exerciseId;
-    let setId = this.props.set.setId;
-    this.props.updateSet(exerciseId, setId, attributeToChange, newValue);
+    let set = {...this.state.set, [attributeToChange]: newValue};
+    this.setState({...this.state, set});
   }
 
   deleteSet(){
@@ -33,7 +37,7 @@ class Set extends Component {
   }
 
   render() {
-    let set = this.props.set;
+    let set = this.state.set;
     const NAME = "name";
     const MIN_REPS = "minReps";
     const MAX_REPS = "maxReps";
