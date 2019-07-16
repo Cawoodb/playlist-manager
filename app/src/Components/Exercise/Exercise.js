@@ -25,9 +25,11 @@ class Exercise extends Component {
 
       this.state = {
         exercise: props.exercise,
-        isLoading: !props.exercise
+        isLoading: !props.exercise,
+        exercises: []
       }
 
+      this.addExercise = this.addExercise.bind(this);
       this.updateExercise = this.updateExercise.bind(this);
       this.addSet = this.addSet.bind(this);
   }
@@ -41,9 +43,19 @@ class Exercise extends Component {
     }
   }
 
+  addExercise(){
+    const initialExercise = { exerciseId: -1, name: "", type: "", sets: [], parentExerciseId: -1 };
+    let newExerciseId = this.state.exercises.length;
+    //call db add exercise and get id
+    let exercises = this.state.exercises || [];
+    exercises.push({...initialExercise, exerciseId: newExerciseId, parentExerciseId: this.state.exercise.exerciseId});
+    this.setState({...this.state, exercises});
+    console.log(this.state);
+  }
+
   updateExercise(newValue, attributeToChange){
-    let exerciseId = this.props.exercise.exerciseId;
-    this.props.updateExercise(exerciseId, attributeToChange, newValue);
+    let exercise = {...this.state.exercise, [attributeToChange]: newValue};
+    this.setState({...this.state, exercise});
   }
 
   addSet(){
@@ -70,10 +82,10 @@ class Exercise extends Component {
         <div className="row">
           <input type="button" onClick={() => this.addSet()} value="Add Set"></input>
           {/* <input type="button" value="Add Set"></input> */}
-          <input type="button" onClick={() => this.props.addExercise(exercise.exerciseId)} value="Add Exercise"></input> 
+          <input type="button" onClick={() => this.addExercise()} value="Add Exercise"></input> 
         </div>
         <Sets sets={exercise.sets}/>
-        <Exercises exercises={exercise.exercises}/>
+        <Exercises exercises={this.state.exercises}/>
       </div>
     );
   }

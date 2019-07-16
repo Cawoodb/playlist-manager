@@ -5,7 +5,7 @@ import { fetchExercise } from '../../Store/Exercise/Actions';
 import PropTypes from 'prop-types';
 import Exercise from './Exercise';
 
-class Exercises extends Component {
+export default class Exercises extends Component {
 
   static get propTypes() {
     return {
@@ -15,25 +15,14 @@ class Exercises extends Component {
 
 constructor(props) {
     super(props);
-    this.state = {
-      exercises: props.exercises,
-    }
 }
 
   render() {
-    let exercises = this.state.exercises || [];
+    let exercises = this.props.exercises;
     return(
       <div className = "row">
-        {exercises.map( exercise => <Exercise exercise={exercise.exercises} key={exercise.exerciseId}/>)}
+        {exercises ? exercises.map( exercise => <Exercise exercise={exercise} key={exercise.exerciseId}/>) : ""}
       </div>
     );
   }
-}
-
-const mapStateToProps = state => {
-  return{
-  };
 };
-
-
-export default connect(mapStateToProps)(Exercises);
