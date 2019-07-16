@@ -5,26 +5,22 @@ import { fetchExercise } from '../../Store/Exercise/Actions';
 import PropTypes from 'prop-types';
 import Exercise from './Exercise';
 
-class Exercises extends Component {
+class Creation extends Component {
 
   static get propTypes() {
     return {
-        exercises: PropTypes.array
+        topLevelExercise: PropTypes.object
     };
 }
 
 constructor(props) {
     super(props);
-    this.state = {
-      exercises: props.exercises,
-    }
 }
 
   render() {
-    let exercises = this.state.exercises || [];
     return(
       <div className = "row">
-        {exercises.map( exercise => <Exercise exercise={exercise.exercises} key={exercise.exerciseId}/>)}
+        <Exercise exercise={this.props.topLevelExercise}/>
       </div>
     );
   }
@@ -32,8 +28,9 @@ constructor(props) {
 
 const mapStateToProps = state => {
   return{
+    topLevelExercise : state.exercise.topLevelExercise
   };
 };
 
 
-export default connect(mapStateToProps)(Exercises);
+export default connect(mapStateToProps)(Creation);
