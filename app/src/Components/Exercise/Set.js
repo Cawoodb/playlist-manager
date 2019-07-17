@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updateSet, deleteSet } from '../../Store/Exercise/Actions'
 
 class Set extends Component {
 
@@ -19,18 +17,14 @@ class Set extends Component {
       this.state = {
         set: props.set
       }
-
-
-      this.updateSet = this.updateSet.bind(this);
-      this.deleteSet = this.deleteSet.bind(this);
   }
 
-  updateSet(newValue, attributeToChange){
+  updateSet = (newValue, attributeToChange) => {
     let set = {...this.state.set, [attributeToChange]: newValue};
     this.setState({...this.state, set});
   }
 
-  deleteSet(){
+  deleteSet = () => {
     let exerciseId = this.props.set.exerciseId;
     let setId = this.props.set.setId;
     this.props.deleteSet(exerciseId, setId);
@@ -53,12 +47,4 @@ class Set extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return{
-    updateSet: (exerciseId, setId, attributeToChange, newValue) => dispatch(updateSet(exerciseId, setId, attributeToChange, newValue)),
-    deleteSet: (exerciseId, setId) => dispatch(deleteSet(exerciseId, setId))
-  };
-};
-
-
-export default connect(null, mapDispatchToProps)(Set);
+export default (Set);

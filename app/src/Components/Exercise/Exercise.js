@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchExercise, addSet, updateExercise, addExercise } from '../../Store/Exercise/Actions';
 import PropTypes from 'prop-types';
 import Sets from './Sets';
 import Exercises from './Exercises';
@@ -12,7 +11,6 @@ class Exercise extends Component {
         exercise: PropTypes.object,
         childExercises: PropTypes.array,
         isLoading: PropTypes.bool,
-        // fetchExercise: PropTypes.func,
         updateExercise: PropTypes.func,
         addSet: PropTypes.func,
         addExercise: PropTypes.func,
@@ -28,10 +26,6 @@ class Exercise extends Component {
         isLoading: !props.exercise,
         exercises: []
       }
-
-      this.addExercise = this.addExercise.bind(this);
-      this.updateExercise = this.updateExercise.bind(this);
-      this.addSet = this.addSet.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +37,7 @@ class Exercise extends Component {
     }
   }
 
-  addExercise(){
+  addExercise = () => {
     const initialExercise = { exerciseId: -1, name: "", type: "", sets: [], parentExerciseId: -1 };
     let newExerciseId = this.state.exercises.length;
     //call db add exercise and get id
@@ -53,12 +47,12 @@ class Exercise extends Component {
     console.log(this.state);
   }
 
-  updateExercise(newValue, attributeToChange){
+  updateExercise = (newValue, attributeToChange) => {
     let exercise = {...this.state.exercise, [attributeToChange]: newValue};
     this.setState({...this.state, exercise});
   }
 
-  addSet(){
+  addSet = () => {
     let exercise = this.state.exercise;
     let sets = exercise.sets;
     let set = {name: "", minReps: 0, maxReps: 0, setId: sets.length || 0, exerciseId: exercise.exerciseId};
@@ -81,7 +75,6 @@ class Exercise extends Component {
         </div>
         <div className="row">
           <input type="button" onClick={() => this.addSet()} value="Add Set"></input>
-          {/* <input type="button" value="Add Set"></input> */}
           <input type="button" onClick={() => this.addExercise()} value="Add Exercise"></input> 
         </div>
         <Sets sets={exercise.sets}/>
@@ -97,12 +90,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return{
-    addExercise: (parentExerciseId) => dispatch(addExercise(parentExerciseId)),
-    updateExercise: (exerciseId, attributeToChange, newValue) => dispatch(updateExercise(exerciseId, attributeToChange, newValue)),
-    addSet: (exerciseId) => dispatch(addSet(exerciseId))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Exercise);
+export default connect(mapStateToProps)(Exercise);

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchExercise } from '../../Store/Exercise/Actions';
 import PropTypes from 'prop-types';
 import Exercise from './Exercise';
 
@@ -12,11 +10,6 @@ class Creation extends Component {
         topLevelExercise: PropTypes.object
     };
 }
-
-constructor(props) {
-    super(props);
-}
-
   render() {
     return(
       <div className = "row">

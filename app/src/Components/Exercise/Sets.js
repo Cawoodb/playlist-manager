@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Set from './Set';
 
@@ -9,10 +8,6 @@ export default class Sets extends Component {
     return {
         sets: PropTypes.array
     };
-}
-
-constructor(props) {
-    super(props);
 }
   render() {
       let sets = this.props.sets;

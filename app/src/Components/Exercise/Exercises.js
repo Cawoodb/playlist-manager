@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchExercise } from '../../Store/Exercise/Actions';
 import PropTypes from 'prop-types';
 import Exercise from './Exercise';
 
@@ -12,11 +9,6 @@ export default class Exercises extends Component {
         exercises: PropTypes.array
     };
 }
-
-constructor(props) {
-    super(props);
-}
-
   render() {
     let exercises = this.props.exercises;
     return(
