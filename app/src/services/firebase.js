@@ -7,8 +7,11 @@ import "firebase/auth";
 import "firebase/firestore";
 
 // TODO: Replace the following with your app's Firebase project configuration
+require('dotenv').config();
+
+console.log(process.env);
 const firebaseConfig = {
-  apiKey: "AIzaSyCl5B23uqyIg0fsivE2Y53glpesaiKmPv4",
+  apiKey: process.env.API_KEY,
   authDomain: "trainingnode-85a3e.firebaseapp.com",
   databaseURL: "https://trainingnode-85a3e.firebaseio.com",
   projectId: "trainingnode-85a3e",

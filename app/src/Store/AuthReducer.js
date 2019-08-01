@@ -1,4 +1,4 @@
-const initState = {};
+const initState = {userId:''};
 
 const authReducer = (state = initState, action) => {
     return state;
